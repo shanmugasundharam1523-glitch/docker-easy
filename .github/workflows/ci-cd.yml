@@ -30,4 +30,11 @@ jobs:
           echo "Pulling latest Docker image..."
           echo "Stopping old container..."
           echo "Starting new container..."
-          echo "Application deployed successfully 🚀"
+          echo "Application deployed successfully"
+
+      - name: Slack Notification
+        if: always()
+        run: |
+          curl -X POST -H "Content-type: application/json" \
+          --data "{\"text\":\"🚀 CI/CD Pipeline Completed for docker-easy\nStatus: ${{ job.status }}\"}" \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
